@@ -16,6 +16,7 @@ export class UserRepository {
 export class UserService {
   constructor(emailSender) {
     this.emailSender = emailSender
+    this.userRepository = new UserRepository()
   }
 
   register(name, age) {
@@ -39,8 +40,7 @@ export class UserService {
   }
 
   sendWelcomeEmail() {
-    const userRepository = new UserRepository()
-    const users = userRepository.list()
+    const users = this.userRepository.list()
 
     for (const user of users) {
       this.emailSender.send(user.name, "Welcome!", "Welcome to our platform!")
