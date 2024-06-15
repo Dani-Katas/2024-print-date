@@ -9,7 +9,10 @@ class EmailSenderSpy extends EmailSender {
   }
 }
 
-class UserRepositoryStub extends UserRepository {
+class TestableUserRepository extends UserRepository {
+  users = []
+
+  // stub
   list() {
     return [
       { name: "Alice", age: 25, createdAt: new Date() },
@@ -18,6 +21,11 @@ class UserRepositoryStub extends UserRepository {
       { name: "David", age: 40, createdAt: new Date() },
       { name: "Eve", age: 45, createdAt: new Date() },
     ]
+  }
+
+  // spy
+  save(user) {
+    this.users.push(user)
   }
 }
 
@@ -29,7 +37,7 @@ describe("UserService", () => {
   describe("sendWelcomeEmail", () => {
     it("sends an email to all the users", () => {
       const emailSender = new EmailSenderSpy()
-      const userRepository = new UserRepositoryStub()
+      const userRepository = new TestableUserRepository()
       const logger = new LoggerDummy()
       const userService = new UserService(emailSender, userRepository, logger)
 
@@ -39,5 +47,16 @@ describe("UserService", () => {
     })
   })
 
-  describe("register", () => {})
+  describe("register", () => {
+    it("registers a new user", () => {
+      const emailSender = new EmailSenderSpy()
+      const userRepository = new TestableUserRepository()
+      const logger = new LoggerDummy()
+      const userService = new UserService(emailSender, userRepository, logger)
+
+      userService.register("Pepe", "25")
+
+      expect(userRepository.users).toHaveLength(1)
+    })
+  })
 })
