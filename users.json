@@ -13,5 +13,10 @@
     "name": "Maria",
     "age": 24,
     "createdAt": "2024-06-15T11:17:53.675Z"
+  },
+  {
+    "name": "Maria2",
+    "age": 24,
+    "createdAt": "2024-06-15T11:22:15.262Z"
   }
 ]
