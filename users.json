@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Dani",
+    "age": 28,
+    "createdAt": "2024-06-15T11:14:35.708Z"
+  },
+  {
+    "name": "Pedro",
+    "age": 24,
+    "createdAt": "2024-06-15T11:14:47.860Z"
+  },
+  {
+    "name": "Maria",
+    "age": 24,
+    "createdAt": "2024-06-15T11:17:53.675Z"
+  }
+]
