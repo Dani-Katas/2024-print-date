@@ -29,6 +29,18 @@ class TestableUserRepository extends UserRepository {
   }
 }
 
+class UserRepositoryFake extends UserRepository {
+  users = []
+
+  list() {
+    return this.users
+  }
+
+  save(user) {
+    this.users.push(user)
+  }
+}
+
 class LoggerDummy extends Logger {
   log() {}
 }
@@ -57,6 +69,22 @@ describe("UserService", () => {
       userService.register("Pepe", "25")
 
       expect(userRepository.users).toHaveLength(1)
+    })
+  })
+
+  describe("all the behavior", () => {
+    it("works", () => {
+      const emailSender = new EmailSenderSpy()
+      const userRepository = new UserRepositoryFake()
+      const logger = new LoggerDummy()
+      const userService = new UserService(emailSender, userRepository, logger)
+
+      userService.register("Pepe", "25")
+      userService.register("Maria", "25")
+      userService.register("Paco", "25")
+      userService.sendWelcomeEmail()
+
+      expect(emailSender.sentEmails).toHaveLength(3)
     })
   })
 })
