@@ -13,10 +13,17 @@ export class UserRepository {
   }
 }
 
+export class Logger {
+  log(message) {
+    console.log(message)
+  }
+}
+
 export class UserService {
   constructor(emailSender, userRepository) {
     this.emailSender = emailSender
     this.userRepository = userRepository
+    this.logger = new Logger()
   }
 
   register(name, age) {
@@ -41,6 +48,8 @@ export class UserService {
 
   sendWelcomeEmail() {
     const users = this.userRepository.list()
+
+    this.logger.log(users)
 
     for (const user of users) {
       this.emailSender.send(user.name, "Welcome!", "Welcome to our platform!")

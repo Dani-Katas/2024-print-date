@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest"
 import { EmailSender, UserRepository, UserService } from "./UserService.js"
 
-class TestableEmailSender extends EmailSender {
+class EmailSenderSpy extends EmailSender {
   sentEmails = []
 
   send(to, subject, text) {
@@ -9,7 +9,7 @@ class TestableEmailSender extends EmailSender {
   }
 }
 
-class TestableUserRepository extends UserRepository {
+class UserRepositoryStub extends UserRepository {
   list() {
     return [
       { name: "Alice", age: 25, createdAt: new Date() },
@@ -23,8 +23,8 @@ class TestableUserRepository extends UserRepository {
 
 describe("UserService", () => {
   it("sends an email to all the users", () => {
-    const emailSender = new TestableEmailSender()
-    const userRepository = new TestableUserRepository()
+    const emailSender = new EmailSenderSpy()
+    const userRepository = new UserRepositoryStub()
     const userService = new UserService(emailSender, userRepository)
 
     userService.sendWelcomeEmail()
