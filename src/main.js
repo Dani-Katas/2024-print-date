@@ -5,7 +5,7 @@ const [binPath, filePath, name, age] = process.argv
 const userService = new UserService()
 
 if (!name || !age) {
-  userService.list()
+  userService.sendWelcomeEmail()
 } else {
   userService.register(name, age)
 }

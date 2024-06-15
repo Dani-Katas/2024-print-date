@@ -1,4 +1,5 @@
 import * as fs from "fs"
+import { nodemailer } from "./nodemailer.js"
 
 export class UserService {
   register(name, age) {
@@ -21,9 +22,11 @@ export class UserService {
     fs.writeFileSync("./users.json", JSON.stringify(users, null, 2))
   }
 
-  list() {
+  sendWelcomeEmail() {
     const users = JSON.parse(fs.readFileSync("./users.json", "utf8"))
 
-    console.log(users)
+    for (const user of users) {
+      nodemailer(user.name, "Welcome!", "Welcome to our platform!")
+    }
   }
 }
