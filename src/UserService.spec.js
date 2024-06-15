@@ -21,11 +21,16 @@ class UserRepositoryStub extends UserRepository {
   }
 }
 
+class LoggerDummy extends Logger {
+  log() {}
+}
+
 describe("UserService", () => {
   it("sends an email to all the users", () => {
     const emailSender = new EmailSenderSpy()
     const userRepository = new UserRepositoryStub()
-    const userService = new UserService(emailSender, userRepository, new Logger())
+    const logger = new LoggerDummy()
+    const userService = new UserService(emailSender, userRepository, logger)
 
     userService.sendWelcomeEmail()
 
