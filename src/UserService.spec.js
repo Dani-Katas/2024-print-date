@@ -66,6 +66,7 @@ class LoggerDummy extends Logger {
   log() {}
 }
 
+// AAA: Arrange, Act, Assert
 describe("UserService", () => {
   describe("sendWelcomeEmail", () => {
     it("sends an email to all the users", () => {
