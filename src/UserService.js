@@ -7,6 +7,12 @@ export class EmailSender {
   }
 }
 
+export class UserRepository {
+  list() {
+    return JSON.parse(fs.readFileSync("./users.json", "utf8"))
+  }
+}
+
 export class UserService {
   constructor(emailSender) {
     this.emailSender = emailSender
@@ -33,7 +39,8 @@ export class UserService {
   }
 
   sendWelcomeEmail() {
-    const users = JSON.parse(fs.readFileSync("./users.json", "utf8"))
+    const userRepository = new UserRepository()
+    const users = userRepository.list()
 
     for (const user of users) {
       this.emailSender.send(user.name, "Welcome!", "Welcome to our platform!")
