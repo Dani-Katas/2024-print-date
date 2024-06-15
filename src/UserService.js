@@ -1,13 +1,17 @@
 import * as fs from "fs"
 import { nodemailer } from "./nodemailer.js"
 
-class EmailSender {
+export class EmailSender {
   send(to, subject, text) {
     nodemailer(to, subject, text)
   }
 }
 
 export class UserService {
+  constructor(emailSender) {
+    this.emailSender = emailSender
+  }
+
   register(name, age) {
     const user = {
       name,
@@ -30,10 +34,9 @@ export class UserService {
 
   sendWelcomeEmail() {
     const users = JSON.parse(fs.readFileSync("./users.json", "utf8"))
-    const emailSender = new EmailSender()
 
     for (const user of users) {
-      emailSender.send(user.name, "Welcome!", "Welcome to our platform!")
+      this.emailSender.send(user.name, "Welcome!", "Welcome to our platform!")
     }
   }
 }
