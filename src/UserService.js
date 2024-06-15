@@ -14,9 +14,9 @@ export class UserRepository {
 }
 
 export class UserService {
-  constructor(emailSender) {
+  constructor(emailSender, userRepository) {
     this.emailSender = emailSender
-    this.userRepository = new UserRepository()
+    this.userRepository = userRepository
   }
 
   register(name, age) {
