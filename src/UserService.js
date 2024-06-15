@@ -11,6 +11,12 @@ export class UserRepository {
   list() {
     return JSON.parse(fs.readFileSync("./users.json", "utf8"))
   }
+
+  save(user) {
+    const users = this.list()
+    users.push(user)
+    fs.writeFileSync("./users.json", JSON.stringify(users, null, 2))
+  }
 }
 
 export class Logger {
@@ -33,7 +39,7 @@ export class UserService {
       createdAt: new Date(),
     }
 
-    const users = JSON.parse(fs.readFileSync("./users.json", "utf8"))
+    const users = this.userRepository.list()
 
     const alreadyExists = users.some((savedUser) => savedUser.name === name)
 
@@ -41,9 +47,7 @@ export class UserService {
       throw new Error("User already exists")
     }
 
-    users.push(user)
-
-    fs.writeFileSync("./users.json", JSON.stringify(users, null, 2))
+    this.userRepository.save(user)
   }
 
   sendWelcomeEmail() {
