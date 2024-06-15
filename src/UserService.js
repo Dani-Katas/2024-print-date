@@ -20,10 +20,10 @@ export class Logger {
 }
 
 export class UserService {
-  constructor(emailSender, userRepository) {
+  constructor(emailSender, userRepository, logger) {
     this.emailSender = emailSender
     this.userRepository = userRepository
-    this.logger = new Logger()
+    this.logger = logger
   }
 
   register(name, age) {

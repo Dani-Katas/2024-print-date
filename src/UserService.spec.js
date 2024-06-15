@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest"
-import { EmailSender, UserRepository, UserService } from "./UserService.js"
+import { EmailSender, Logger, UserRepository, UserService } from "./UserService.js"
 
 class EmailSenderSpy extends EmailSender {
   sentEmails = []
@@ -25,7 +25,7 @@ describe("UserService", () => {
   it("sends an email to all the users", () => {
     const emailSender = new EmailSenderSpy()
     const userRepository = new UserRepositoryStub()
-    const userService = new UserService(emailSender, userRepository)
+    const userService = new UserService(emailSender, userRepository, new Logger())
 
     userService.sendWelcomeEmail()
 
